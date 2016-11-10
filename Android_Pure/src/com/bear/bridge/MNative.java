@@ -43,6 +43,7 @@ public class MNative extends UnityPlayerActivity {
 	public static final int LOGOUT = 0x0003;
 	public static final int EXIT = 0x0004;
 	public static final int PAY = 0x0005;
+	public static final int INIT_GAME_INFO = 0x005;
 	public static final int INIT_UP_AVATAR_CONFIG = 0x0010;
 	public static final int OPEN_UP_ACATAR_DIALOG = 0x0011;
 
@@ -66,6 +67,9 @@ public class MNative extends UnityPlayerActivity {
 			case PAY:
 				//MainActivity.getInstance().pay(msg.getData());
 				UnityPlayer.UnitySendMessage(GameObject, PayBackMethod, "支付成功");
+				break;
+			case INIT_GAME_INFO:
+				UnityPlayer.UnitySendMessage(GameObject, PayBackMethod, "上报游戏数据成功");
 				break;
 			case INIT_UP_AVATAR_CONFIG:
 				MainActivity.getInstance().initUpAvatarConfig(msg.getData());
@@ -111,6 +115,12 @@ public class MNative extends UnityPlayerActivity {
 		bundle.putString("num", num);
 		bundle.putString("site", site);
 		sendHandlerMessage(OPEN_UP_ACATAR_DIALOG, bundle);
+	}
+	
+	public static void initGameInfo(String json) {
+		Bundle bundle = new Bundle();
+		bundle.putString("json", json);
+		sendHandlerMessage(INIT_GAME_INFO, bundle);
 	}
 	
 	public static void initSDK() {

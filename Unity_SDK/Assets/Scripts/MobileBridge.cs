@@ -10,6 +10,8 @@ public class MobileBridge : MonoBehaviour {
 
     public Action<string> MessageCallback;
 
+	[DllImport("__Internal")]
+    private static extern int iosGetPlatform();
     [DllImport("__Internal")]
     private static extern void iosInitSDK();
     [DllImport("__Internal")]
@@ -205,5 +207,22 @@ public class MobileBridge : MonoBehaviour {
         {
             MessageCallback.Invoke("ReceiveMessage:" + msg);
         }
+    }
+	
+	//获取当前平台
+    public int GetPlatform()
+    {
+        int platform = 0;
+#if UNITY_ANDROID && !UNITY_EDITOR
+        using (AndroidJavaClass jc = new AndroidJavaClass("com.bear.bridge.MNative"))
+        {
+            platform = jc.CallStatic<int>("getPlatform");
+        }
+#endif
+
+#if UNITY_IOS && !UNITY_EDITOR
+            platform = iosGetPlatform();
+#endif
+        return platform;
     }
 }

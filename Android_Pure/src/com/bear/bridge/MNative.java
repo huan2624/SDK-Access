@@ -10,6 +10,16 @@ import android.os.Message;
 
 //本地原生与unity通信
 public class MNative extends UnityPlayerActivity {
+	
+	private static int platform = 12;
+	public static int getPlatform()
+	{
+		return platform;
+	}
+	public static void setPlatform(int value)
+	{
+		platform = value;
+	}
 
 	public static final String GameObject = "Main Camera";
 	public static final String AvatarUpSuccMethod = "UpAvatarBack";
